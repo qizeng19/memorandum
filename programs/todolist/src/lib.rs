@@ -2,6 +2,7 @@ use anchor_lang::prelude::*;
 mod instructions;
 use instructions::initialize::*;
 use instructions::add::*;
+use instructions::find_available_index::*;
 mod state;
 mod constant;
 mod error;
@@ -15,8 +16,12 @@ pub mod todolist {
         handle_initialize(ctx, max_length)
     }
 
-    pub fn add(ctx: Context<Add>, content: String) -> Result<()> {
-        handle_add(ctx, content)
+    pub fn find_available_index(ctx: Context<FindAvailableIndex>) -> Result<u8> {
+        handle_find_available_index(ctx)
+    }
+
+    pub fn add(ctx: Context<Add>, content: String, available_index: u8) -> Result<()> {
+        handle_add(ctx, content, available_index)
     }
 }
 

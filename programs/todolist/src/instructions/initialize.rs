@@ -22,9 +22,11 @@ pub fn handle_initialize(ctx: Context<Initialize>, max_length: u8) -> Result<()>
     let user_state = &mut ctx.accounts.user_state;
 
     if max_length > MAX_LENGTH {
+        // return Err(ErrorCode::InvalidMaxLength)?;// 也可
         return Err(ErrorCode::InvalidMaxLength.into());
     }
     user_state.user = ctx.accounts.user.key();
     user_state.index_array = vec![0; max_length as usize];
+    user_state.bump = ctx.bumps.user_state;
     Ok(())
 }

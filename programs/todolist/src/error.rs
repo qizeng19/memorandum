@@ -14,4 +14,6 @@ pub enum ErrorCode {
     NotAdmin,
     #[msg("Invalid max length.")]
     InvalidMaxLength,
+    #[msg("No available index.")]
+    NoAvailableIndex,
 }
