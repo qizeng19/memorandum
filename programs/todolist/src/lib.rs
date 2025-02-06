@@ -4,6 +4,7 @@ use instructions::initialize::*;
 use instructions::add::*;
 use instructions::find_available_index::*;
 use instructions::update::*;
+use instructions::delete::*;
 mod state;
 mod constant;
 mod error;
@@ -27,6 +28,10 @@ pub mod todolist {
 
     pub fn update(ctx: Context<Update>, index: u8, content: String, is_completed: bool) -> Result<()> {
         handle_update(ctx, index, content, is_completed)
+    }
+
+    pub fn delete(ctx: Context<Delete>, index: u8) -> Result<()> {
+        handle_delete(ctx, index)
     }
 }
 
