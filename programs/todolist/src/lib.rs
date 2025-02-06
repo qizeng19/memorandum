@@ -3,6 +3,7 @@ mod instructions;
 use instructions::initialize::*;
 use instructions::add::*;
 use instructions::find_available_index::*;
+use instructions::update::*;
 mod state;
 mod constant;
 mod error;
@@ -22,6 +23,10 @@ pub mod todolist {
 
     pub fn add(ctx: Context<Add>, content: String, available_index: u8) -> Result<()> {
         handle_add(ctx, content, available_index)
+    }
+
+    pub fn update(ctx: Context<Update>, index: u8, content: String, is_completed: bool) -> Result<()> {
+        handle_update(ctx, index, content, is_completed)
     }
 }
 

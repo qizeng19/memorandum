@@ -50,7 +50,7 @@ describe("todolist", () => {
         assert.equal(userStateData.indexArray.length, 20);
     });
 
-    it("find available index and add", async () => {
+    it("first time : find available index and add", async () => {
         const availableIndex = await program.methods
             .findAvailableIndex()
             .accounts({
@@ -92,5 +92,32 @@ describe("todolist", () => {
         const listItemData = await program.account.listItem.fetch(listItem);
         console.log("listItemData", listItemData);
         assert.equal(listItemData.content, "test");
+    });
+
+    it("update", async () => {
+        const availableIndex = 0;
+        const [listItem, bump] = PublicKey.findProgramAddressSync(
+            [
+                Buffer.from("list_item"),
+                user.publicKey.toBuffer(),
+                new BN(availableIndex).toArrayLike(Buffer, "le", 1), // 这里代表1个字节 与程序类型u8对应
+            ],
+            program.programId
+        );
+        const tx = await program.methods
+            .update(new BN(availableIndex), "test23", true)
+            .accounts({
+                user: user.publicKey,
+                listItem: listItem,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            })
+            .signers([user])
+            .rpc();
+
+       
+        const listItemData = await program.account.listItem.fetch(listItem);
+        console.log("listItemData", listItemData);
+        assert.equal(listItemData.content, "test23");
+        assert.equal(listItemData.isCompleted, true);
     });
 });

@@ -18,5 +18,6 @@ pub struct ListItem {
     #[max_len(MAX_ITEM_CONTENT_LENGTH as usize)]
     pub content: String,
     pub is_completed: bool,
+    pub bump: u8,
 }
 

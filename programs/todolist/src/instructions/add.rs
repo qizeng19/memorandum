@@ -43,6 +43,7 @@ pub fn handle_add(ctx: Context<Add>, content: String, available_index: u8) -> Re
     list_item.index = available_index;
     list_item.content = content;
     list_item.is_completed = false;
+    list_item.bump = ctx.bumps.list_item;
 
     Ok(())
 }
