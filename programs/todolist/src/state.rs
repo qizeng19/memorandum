@@ -1,9 +1,10 @@
 use anchor_lang::prelude::*;
+use crate::constant::MAX_LENGTH;
 
 #[account]
 #[derive(InitSpace)]
 pub struct UserState {
     pub user: Pubkey,
-    pub index: u64,
-    pub max_lenth: u64,
+    #[max_len(MAX_LENGTH as usize)]
+    pub index_array: Vec<u8>,
 }

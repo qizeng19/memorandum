@@ -3,7 +3,11 @@ use crate::state::*;
 #[derive(Accounts)]
 pub struct Add<'info> {
     #[account(mut)]
+    pub payer: Signer<'info>,
+
+    #[account(mut)]
     pub user_state: Account<'info, UserState>,
+
     pub system_program: Program<'info, System>,
 }
 

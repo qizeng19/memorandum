@@ -1,0 +1,1 @@
+pub const MAX_LENGTH: u8 = 50;

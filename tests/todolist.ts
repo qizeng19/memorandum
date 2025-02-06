@@ -35,7 +35,7 @@ describe("todolist", () => {
   })
   it("initialize", async () => {
     // Add your test here.
-    const tx = await program.methods.initialize()
+    const tx = await program.methods.initialize(20)
     .accounts({
       user: user.publicKey,
       userState: userState,
@@ -47,7 +47,6 @@ describe("todolist", () => {
     const userStateData = await program.account.userState.fetch(userState);
    
     assert.equal(userStateData.user.toBase58(), user.publicKey.toBase58());
-    assert.equal(userStateData.index.toString(), "0");
-    assert.equal(userStateData.maxLenth.toString(), "10");
+    assert.equal(userStateData.indexArray.length, 20);
   });
 });
