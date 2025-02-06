@@ -5,6 +5,7 @@ use instructions::add::*;
 use instructions::find_available_index::*;
 use instructions::update::*;
 use instructions::delete::*;
+use instructions::get_list::*;
 mod state;
 mod constant;
 mod error;
@@ -32,6 +33,10 @@ pub mod todolist {
 
     pub fn delete(ctx: Context<Delete>, index: u8) -> Result<()> {
         handle_delete(ctx, index)
+    }
+
+    pub fn get_list(ctx: Context<GetList>) -> Result<Vec<Pubkey>> {
+        handle_get_list(ctx)
     }
 }
 
