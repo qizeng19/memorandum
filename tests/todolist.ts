@@ -133,8 +133,21 @@ describe("todolist", () => {
             .rpc();
         const listItemState2 = await program.account.listItem.fetch(listItem2);
         const listItemState = await program.account.listItem.fetch(listItem);
+        const indexArray = await program.account.userState.fetch(userState);
+        console.log("indexArray", indexArray);
         console.log("listItemState2", listItemState2);
         console.log("listItemState", listItemState);
+    });
+    it("get_list1", async () => {
+        const list = await program.methods
+            .getList()
+            .accounts({
+                user: user.publicKey,
+                userState: userState,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            })
+            .view();
+        console.log("list", list);
     });
 
     it("delete the first item", async () => {
@@ -153,5 +166,16 @@ describe("todolist", () => {
         const userStateData = await program.account.userState.fetch(userState);
         console.log("listItemInfo", listItemInfo);
         console.log("userStateData", userStateData);
+    });
+    it("get_list2", async () => {
+        const list = await program.methods
+            .getList()
+            .accounts({
+                user: user.publicKey,
+                userState: userState,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            })
+            .view();
+        console.log("list", list);
     });
 });
