@@ -16,4 +16,6 @@ pub enum ErrorCode {
     InvalidMaxLength,
     #[msg("No available index.")]
     NoAvailableIndex,
+    #[msg("Global config paused.")]
+    GlobalConfigPaused,
 }

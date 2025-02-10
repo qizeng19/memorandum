@@ -24,10 +24,20 @@ pub struct Add<'info> {
     )]
     pub list_item: Account<'info, ListItem>,
 
+    #[account(
+        seeds = [b"global_config"],
+        bump = global_config.bump
+    )]
+    pub global_config: Account<'info, GlobalConfig>,
+
     pub system_program: Program<'info, System>,
 }
 
 pub fn handle_add(ctx: Context<Add>, content: String, available_index: u8) -> Result<()> {
+    let global_config = &ctx.accounts.global_config;
+    if global_config.mode == Mode::Paused {
+        return Err(ErrorCode::GlobalConfigPaused.into());
+    }
     
     let user_state = &mut ctx.accounts.user_state;
     let index_array = &mut user_state.index_array;

@@ -1,4 +1,5 @@
 pub mod initialize;
+pub mod global_config;
 pub mod find_available_index;
 pub mod add;
 pub mod update;

@@ -21,3 +21,17 @@ pub struct ListItem {
     pub bump: u8,
 }
 
+#[account]
+pub struct GlobalConfig {
+    pub admin: Pubkey,
+    pub mode: Mode,
+    pub bump: u8,
+}
+
+
+#[derive(AnchorSerialize, AnchorDeserialize, Clone, Copy, PartialEq, Eq)]
+pub enum Mode {
+    Normal,
+    Paused,
+    Terminated,
+}

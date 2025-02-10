@@ -26,6 +26,24 @@ describe("todolist", () => {
             program.programId
         )[0];
     });
+    it("global_config", async () => {
+        const globalConfig = PublicKey.findProgramAddressSync(
+            [Buffer.from("global_config")],
+            program.programId
+        )[0];
+        const tx = await program.methods
+            .globalConfig()
+            .accounts({
+                payer: user.publicKey,
+                globalConfig: globalConfig,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            })
+            .signers([user])
+            .rpc();
+
+        const globalConfigData = await program.account.globalConfig.fetch(globalConfig);
+        console.log("globalConfigData", globalConfigData);
+    });
     it("initialize", async () => {
         // Add your test here.
         const tx = await program.methods

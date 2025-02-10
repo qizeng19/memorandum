@@ -6,6 +6,7 @@ use instructions::find_available_index::*;
 use instructions::update::*;
 use instructions::delete::*;
 use instructions::get_list::*;
+use instructions::global_config::*;
 mod state;
 mod constant;
 mod error;
@@ -37,6 +38,10 @@ pub mod todolist {
 
     pub fn get_list(ctx: Context<GetList>) -> Result<Vec<Pubkey>> {
         handle_get_list(ctx)
+    }
+
+    pub fn global_config(ctx: Context<GlobalConfigCtx>) -> Result<()> {
+        handle_global_config(ctx)
     }
 }
 
