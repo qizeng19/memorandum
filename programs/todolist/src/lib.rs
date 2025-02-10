@@ -7,9 +7,11 @@ use instructions::update::*;
 use instructions::delete::*;
 use instructions::get_list::*;
 use instructions::global_config::*;
+use instructions::edit_global_config::*;
 mod state;
 mod constant;
 mod error;
+use state::Mode;  // 添加这行导入
 declare_id!("Fvf2JZcPnwwi1gtQkF93MjtXvCKsnThnRFjAW4Fb5H2L");
 
 #[program]
@@ -42,6 +44,10 @@ pub mod todolist {
 
     pub fn global_config(ctx: Context<GlobalConfigCtx>) -> Result<()> {
         handle_global_config(ctx)
+    }
+
+    pub fn edit_global_config(ctx: Context<EditGlobalConfig>, mode: Mode) -> Result<()> {
+        handle_edit_global_config(ctx, mode)
     }
 }
 

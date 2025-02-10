@@ -11,16 +11,22 @@ describe("todolist", () => {
     const program = anchor.workspace.Todolist as Program<Todolist>;
 
     let user = anchor.web3.Keypair.generate();
+    let user2 = anchor.web3.Keypair.generate();
     let userState;
     let listItem;
     let availableIndex;
-
+ 
     before(async () => {
         const signature = await program.provider.connection.requestAirdrop(
             user.publicKey,
             5 * anchor.web3.LAMPORTS_PER_SOL // 2 SOL = 2 billion lamports
         );
+        const signature2 = await program.provider.connection.requestAirdrop(
+            user2.publicKey,
+            5 * anchor.web3.LAMPORTS_PER_SOL // 2 SOL = 2 billion lamports
+        );  
         await program.provider.connection.confirmTransaction(signature);
+        await program.provider.connection.confirmTransaction(signature2);
         userState = PublicKey.findProgramAddressSync(
             [Buffer.from("user"), user.publicKey.toBuffer()],
             program.programId
@@ -121,6 +127,21 @@ describe("todolist", () => {
         console.log("listItemData", listItemData);
         assert.equal(listItemData.content, "test23");
         assert.equal(listItemData.isCompleted, true);
+    });
+    it("edit_global_config", async () => {
+        const globalConfig = PublicKey.findProgramAddressSync(
+            [Buffer.from("global_config")],
+            program.programId
+        )[0];
+        const tx = await program.methods
+            .editGlobalConfig({ paused: {} })
+            .accounts({
+                admin: user2.publicKey,
+                globalConfig: globalConfig,
+                systemProgram: anchor.web3.SystemProgram.programId,
+            })
+            .signers([user2])
+            .rpc();
     });
     it("second time : find available index and add", async () => {
         const availableIndex2 = await program.methods
